@@ -1,0 +1,18 @@
+[
+    {
+        "image": "image_1.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Men's Casual Fall Outfit\",\n    \"description\": \"A stylish ensemble for men featuring a navy denim jacket, red plaid shirt, olive chinos, and tan lace-up boots. Ideal for casual outings, fall season wear, or smart-casual dress codes.\"\n  },\n  \"description_tags\": [\n    \"navy denim jacket\",\n    \"red plaid shirt\",\n    \"olive chinos\",\n    \"tan lace-up boots\",\n    \"men's fashion\",\n    \"casual style\",\n    \"fall attire\",\n    \"smart-casual dress\",\n    \"layered outfit\",\n    \"streetwear\"\n  ]\n}"
+    },
+    {
+        "image": "image_2.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Men's Casual Fall Outfit\",\n    \"description\": \"A stylish ensemble suitable for fall weather consisting of a denim jacket, plaid shirt, olive chinos, and brown boots.\"\n  },\n  \"description_tags\": [\n    \"denim jacket\",\n    \"plaid shirt\",\n    \"olive green chinos\",\n    \"brown lace-up boots\",\n    \"men's fashion\",\n    \"casual style\",\n    \"autumn wear\",\n    \"layered outfit\",\n    \"streetwear\",\n    \"trendy men's clothing\"\n  ]\n}"
+    },
+    {
+        "image": "image_1.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Floral Print Short-Sleeve Shirt\"\n  },\n  \"description_tags\": [\n    \"men's clothing\",\n    \"short-sleeve shirt\",\n    \"floral print\",\n    \"casual wear\",\n    \"summer shirt\",\n    \"button-up shirt\",\n    \"collared shirt\",\n    \"patterned shirt\",\n    \"fashion\"\n  ]\n}"
+    },
+    {
+        "image": "image_2.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Floral Print Short Sleeve Shirt\"\n  },\n  \"description_tags\": [\n    \"short sleeve shirt\",\n    \"floral print\",\n    \"casual wear\",\n    \"button-up\",\n    \"collared shirt\",\n    \"summer fashion\",\n    \"men's clothing\",\n    \"patterned shirt\",\n    \"lightweight fabric\",\n    \"streetwear\"\n  ]\n}"
+    }
+]
