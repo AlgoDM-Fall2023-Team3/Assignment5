@@ -80,14 +80,13 @@ def main():
     st.title("Multi-Modal Image Retrieval System")
 
     c1, c2 = st.tabs(["Search by text", "Search by Image"])
-    client = qdrant_client.QdrantClient(":memory:")
-    index = create_llm_index(client)
 
     with c1:
         # Get user input query
         query = st.text_input("Enter a description to find matching images:")
        
-
+        client = qdrant_client.QdrantClient(":memory:")
+        index = create_llm_index(client)
         if st.button("Search"):
             # Retrieve images based on the query
             retrieved_images = retrieve_images(query, index)
@@ -110,6 +109,8 @@ def main():
             st.image(input_image, caption="Uploaded Input Image.", use_column_width=True)
             input_image_path = input_image.name
 
+            client = qdrant_client.QdrantClient(":memory:")
+            index = create_llm_index(client)
             # Retrieve images based on the input image
             retrieved_images_paths = image_retrieval(input_image_path, index)[0]
 
