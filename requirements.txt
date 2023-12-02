@@ -10,3 +10,4 @@ torch
 torchvision
 scikit-image
 qdrant_client
+ipython
