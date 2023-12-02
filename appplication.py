@@ -1,23 +1,20 @@
 import streamlit as st
 import os
-import time
-import random, string
-from pathlib import Path
-from PIL import Image
-import qdrant_client
 from llama_index import SimpleDirectoryReader
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index import StorageContext
 from llama_index.indices.multi_modal.base import MultiModalVectorStoreIndex
-from llama_index.response.notebook_utils import display_source_node
 from llama_index.schema import ImageNode
 from llama_index.multi_modal_llms.openai import OpenAIMultiModal
 from llama_index.schema import ImageDocument
+import qdrant_client
 
 # Access API key from Streamlit secrets
 OPEN_API_KEY = st.secrets['open_api_key']
 os.environ["OPENAI_API_KEY"] = OPEN_API_KEY
 image_path = './FashionImages'
+
+# Create Qdrant client and Llama index outside of the main function
 
 def create_llm_index(client):
     text_store = QdrantVectorStore(
@@ -29,16 +26,18 @@ def create_llm_index(client):
     storage_context = StorageContext.from_defaults(vector_store=text_store)
 
     documents = SimpleDirectoryReader("./FashionImages").load_data()
-    st.write("creating index")
     index = MultiModalVectorStoreIndex.from_documents(
         documents, storage_context=storage_context, image_vector_store=image_store
     )
 
     return index
 
+qdrant_client_instance = qdrant_client.QdrantClient(":memory:")
+llama_index_instance = create_llm_index(qdrant_client_instance)
+
 def retrieve_images(query, client):
-    # Create Llama index
-    index = create_llm_index(client)
+    # Use the existing Llama index
+    index = llama_index_instance
 
     retriever = index.as_retriever(similarity_top_k=1, image_similarity_top_k=1)
     retrieval_results = retriever.retrieve(query)
@@ -50,10 +49,10 @@ def retrieve_images(query, client):
     return retrieved_images
 
 def image_retrieval(input_image_path, client):
-    index = create_llm_index(client)
+    # Use the existing Llama index
+    index = llama_index_instance
 
     retriever_engine = index.as_retriever(image_similarity_top_k=2)
-    # retrieve more information from the GPT4V response
 
     retrieval_results = retriever_engine.image_to_image_retrieve(
         "./FashionImages/"+input_image_path
@@ -81,17 +80,15 @@ def image_retrieval(input_image_path, client):
 def main():
     st.title("Multi-Modal Image Retrieval System")
 
-    c1, c2 = st.tabs(["Search by text", "Search by Image"])
+    c1, c2 = st.columns(2)
 
     with c1:
         # Get user input query
         query = st.text_input("Enter a description to find matching images:")
-        client = qdrant_client.QdrantClient(":memory:")
-        existing_client = client
 
         if st.button("Search"):
             # Retrieve images based on the query
-            retrieved_images = retrieve_images(query, existing_client)
+            retrieved_images = retrieve_images(query, qdrant_client_instance)
 
             # Display retrieved images
             if retrieved_images:
@@ -108,13 +105,11 @@ def main():
         # Upload input image
         input_image = st.file_uploader("Upload Input Image", type=["jpg", "png"])
         if input_image:
-            client = qdrant_client.QdrantClient(":memory:")
-            existing_client = client
             st.image(input_image, caption="Uploaded Input Image.", use_column_width=True)
             input_image_path = input_image.name
 
             # Retrieve images based on the input image
-            retrieved_images_paths = image_retrieval(input_image_path, existing_client)[0]
+            retrieved_images_paths = image_retrieval(input_image_path, qdrant_client_instance)[0]
 
             # Display retrieved images
             st.subheader("Retrieved Images")
@@ -123,7 +118,7 @@ def main():
 
             # Display GPT-4V reasoning response
             st.subheader("GPT-4V Reasoning")
-            reasoning_response = image_retrieval(input_image_path, existing_client)[1]
+            reasoning_response = image_retrieval(input_image_path, qdrant_client_instance)[1]
             st.write(reasoning_response)
 
 if __name__ == "__main__":
