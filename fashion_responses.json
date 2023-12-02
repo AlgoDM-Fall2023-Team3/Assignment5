@@ -14,5 +14,21 @@
     {
         "image": "image_2.jpg",
         "response_content": "{\n  \"product\": {\n    \"title\": \"Floral Print Short Sleeve Shirt\"\n  },\n  \"description_tags\": [\n    \"short sleeve shirt\",\n    \"floral print\",\n    \"casual wear\",\n    \"button-up\",\n    \"collared shirt\",\n    \"summer fashion\",\n    \"men's clothing\",\n    \"patterned shirt\",\n    \"lightweight fabric\",\n    \"streetwear\"\n  ]\n}"
+    },
+    {
+        "image": "image_1.jpg",
+        "response_content": "```json\n{\n  \"product\": {\n    \"title\": \"Printed Tape Trim Joggers\"\n  },\n  \"description_tags\": [\n    \"gray joggers\",\n    \"casual pants\",\n    \"ethnic tape side trim\",\n    \"drawstring waist\",\n    \"ribbed cuffs\",\n    \"streetwear\",\n    \"unisex apparel\",\n    \"cotton blend fabric\",\n    \"relaxed fit\",\n    \"comfort wear\"\n  ]\n}\n```"
+    },
+    {
+        "image": "image_3.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Embellished Grey Jogger Sweatpants\"\n  },\n  \"description_tags\": [\n    \"grey sweatpants\",\n    \"jogger pants\",\n    \"embellished side stripe\",\n    \"drawstring waist\",\n    \"cuffed ankles\",\n    \"casual wear\",\n    \"comfortable\",\n    \"streetwear\",\n    \"ribbed trim\",\n    \"colorful stripe pattern\"\n  ]\n}"
+    },
+    {
+        "image": "image_1.jpg",
+        "response_content": "```json\n{\n  \"product\": {\n    \"title\": \"Men's Casual Summer Outfit\"\n  },\n  \"description_tags\": [\n    \"burgundy tank top\",\n    \"sleeveless shirt\",\n    \"black trousers\",\n    \"casual style\",\n    \"summer fashion\",\n    \"male model\",\n    \"streetwear\",\n    \"white sneakers\",\n    \"minimalist design\",\n    \"urban attire\"\n  ]\n}\n```"
+    },
+    {
+        "image": "image_3.jpg",
+        "response_content": "{\n  \"product\": {\n    \"title\": \"Sleeveless Tank Top & Slim Fit Trousers\"\n  },\n  \"description_tags\": [\n    \"men's fashion\",\n    \"sleeveless top\",\n    \"burgundy tank top\",\n    \"slim fit trousers\",\n    \"casual style\",\n    \"crew neck top\",\n    \"plain tank top\",\n    \"black trousers\",\n    \"white sneakers\",\n    \"streetwear\"\n  ]\n}"
     }
 ]
