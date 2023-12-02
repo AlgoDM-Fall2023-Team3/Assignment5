@@ -14,12 +14,12 @@ from llama_index.schema import ImageNode
 from llama_index.multi_modal_llms.openai import OpenAIMultiModal
 from llama_index.schema import ImageDocument
 
+# Access API key from Streamlit secrets
 OPEN_API_KEY = st.secrets['open_api_key']
+os.environ["OPENAI_API_KEY"] = OPEN_API_KEY
 image_path = './FashionImages'
 
-
 def create_llm_index(client):
-
     text_store = QdrantVectorStore(
         client=client, collection_name="text_collection"
     )
@@ -36,8 +36,7 @@ def create_llm_index(client):
 
     return index
 
-def retrieve_images(query,client):
-
+def retrieve_images(query, client):
     # Create Llama index
     index = create_llm_index(client)
 
@@ -50,8 +49,7 @@ def retrieve_images(query,client):
             retrieved_images.append(res_node.node.metadata["file_path"])
     return retrieved_images
 
-
-def image_retrieval(input_image_path,client):
+def image_retrieval(input_image_path, client):
     index = create_llm_index(client)
 
     retriever_engine = index.as_retriever(image_similarity_top_k=2)
@@ -70,65 +68,63 @@ def image_retrieval(input_image_path,client):
         image_documents.append(ImageDocument(image_path=res_img))
     
     openai_mm_llm = OpenAIMultiModal(
-    model="gpt-4-vision-preview", api_key=os.environ["OPENAI_API_KEY"], max_new_tokens=1500
+        model="gpt-4-vision-preview", api_key=os.environ["OPENAI_API_KEY"], max_new_tokens=1500
     )
     response = openai_mm_llm.complete(
         prompt="Given the first image as the base image, what the other images correspond to?",
         image_documents=image_documents,
     )
     
-    return retrieved_images,response
+    return retrieved_images, response
 
 # Streamlit app
 def main():
     st.title("Multi-Modal Image Retrieval System")
 
-    c1,c2 = st.tabs(["Search by text","Search by Image"])
+    c1, c2 = st.tabs(["Search by text", "Search by Image"])
 
     with c1:
-      # Get user input query
-      query = st.text_input("Enter a description to find matching images:")
-      #existing_client = generate_random_name()
-      client = qdrant_client.QdrantClient(":memory:")
-      existing_client = client
+        # Get user input query
+        query = st.text_input("Enter a description to find matching images:")
+        client = qdrant_client.QdrantClient(":memory:")
+        existing_client = client
 
-      if st.button("Search"):
-          # Retrieve images based on the query
-          retrieved_images = retrieve_images(query,existing_client)
+        if st.button("Search"):
+            # Retrieve images based on the query
+            retrieved_images = retrieve_images(query, existing_client)
 
-          # Display retrieved images
-          if retrieved_images:
-              st.subheader("Matching Images:")
-              for img_path in retrieved_images:
-                  st.image(img_path, caption=os.path.basename(img_path), use_column_width=True)
-          else:
-              st.warning("No matching images found.")
+            # Display retrieved images
+            if retrieved_images:
+                st.subheader("Matching Images:")
+                for img_path in retrieved_images:
+                    st.image(img_path, caption=os.path.basename(img_path), use_column_width=True)
+            else:
+                st.warning("No matching images found.")
+
     with c2:
-      # Upload an image
-      st.title("Image Retrieval and Reasoning App")
+        # Upload an image
+        st.title("Image Retrieval and Reasoning App")
 
-    # Upload input image
-      input_image = st.file_uploader("Upload Input Image", type=["jpg", "png"])
-      if input_image:
-          client = qdrant_client.QdrantClient(":memory:")
-          existing_client = client
-          st.image(input_image, caption="Uploaded Input Image.", use_column_width=True)
-          input_image_path = input_image.name
+        # Upload input image
+        input_image = st.file_uploader("Upload Input Image", type=["jpg", "png"])
+        if input_image:
+            client = qdrant_client.QdrantClient(":memory:")
+            existing_client = client
+            st.image(input_image, caption="Uploaded Input Image.", use_column_width=True)
+            input_image_path = input_image.name
 
-          # Retrieve images based on the input image
-          retrieved_images_paths = image_retrieval(input_image_path,existing_client)[0]
+            # Retrieve images based on the input image
+            retrieved_images_paths = image_retrieval(input_image_path, existing_client)[0]
 
-          # Display retrieved images
-          st.subheader("Retrieved Images")
-          for img_path in retrieved_images_paths:
-              st.image(img_path, caption=img_path, use_column_width=True)
+            # Display retrieved images
+            st.subheader("Retrieved Images")
+            for img_path in retrieved_images_paths:
+                st.image(img_path, caption=img_path, use_column_width=True)
 
-
-          # Display GPT-4V reasoning response
-          st.subheader("GPT-4V Reasoning")
-          reasoning_response = image_retrieval(input_image_path,existing_client)[1]
-          st.write(reasoning_response)
-
+            # Display GPT-4V reasoning response
+            st.subheader("GPT-4V Reasoning")
+            reasoning_response = image_retrieval(input_image_path, existing_client)[1]
+            st.write(reasoning_response)
 
 if __name__ == "__main__":
     main()
