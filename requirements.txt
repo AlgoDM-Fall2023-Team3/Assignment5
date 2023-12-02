@@ -1,0 +1,12 @@
+streamlit
+matplotlib
+pillow
+llama_index
+ftfy
+regex
+tqdm
+git+https://github.com/openai/CLIP.git
+torch
+torchvision
+scikit-image
+qdrant_client
