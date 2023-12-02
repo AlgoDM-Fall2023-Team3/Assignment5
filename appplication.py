@@ -14,13 +14,11 @@ from llama_index.schema import ImageNode
 from llama_index.multi_modal_llms.openai import OpenAIMultiModal
 from llama_index.schema import ImageDocument
 
-OPEN_API_KEY: st.secrets['open_api_key']
+OPEN_API_KEY = st.secrets['open_api_key']
 image_path = './FashionImages'
 
 
 def create_llm_index(client):
-    #client = qdrant_client.QdrantClient(path = client)
-    
 
     text_store = QdrantVectorStore(
         client=client, collection_name="text_collection"
